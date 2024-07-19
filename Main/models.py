@@ -15,3 +15,17 @@ class User(db.Model, UserMixin):
 
     def __repr__(self):
         return f"User('{self.username}', '{self.email}')"
+    
+class Favorite(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    isbn = db.Column(db.String(20), nullable=False)
+    title = db.Column(db.String(100), nullable=False)
+    author = db.Column(db.String(100), nullable=False)
+    publisher = db.Column(db.String(100), nullable=False)
+    image_url = db.Column(db.String(200), nullable=False)
+    year = db.Column(db.String(10), nullable=False)  # Add the year column
+    user = db.relationship('User', backref='favorites', lazy=True)
+
+    def __repr__(self):
+        return f"Favorite('{self.title}', '{self.author}')"

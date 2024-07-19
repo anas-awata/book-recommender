@@ -73,3 +73,6 @@ class UpdateAccount(FlaskForm):
 			if user:
 				raise ValidationError('That email is taken. Please Choose a different one.')
 
+class FavoriteForm(FlaskForm):
+    book_title = StringField('Book Title', validators=[DataRequired()])
+    submit = SubmitField('Add to Favorites')

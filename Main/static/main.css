@@ -1,23 +1,28 @@
 body {
-  background: #c2f1f5;
+  background: #fff;
   color: #000000;
-  margin-top: 5rem;
+  margin-top: 3rem;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   color: #000000;
 }
 
 .bg-steel {
-  background-color: #000314;
+  background-color: #424242;
 }
 
 .site-header .navbar-nav .nav-link {
-  color: #00c3ff;
+  color: #51ffa2;
 }
 
 .site-header .navbar-nav .nav-link:hover {
-  color: #82fada;
+  color: #b8ffd9;
 }
 
 .site-header .navbar-nav .nav-link.active {
@@ -26,10 +31,10 @@ h1, h2, h3, h4, h5, h6 {
 
 .content-section {
   background: #f5efe2;
-  padding: 10px 20px;
   border: 1px solid #dddddd;
   border-radius: 3px;
   margin-bottom: 20px;
+  padding: 50px;
 }
 
 .article-title {
@@ -54,7 +59,7 @@ a.article-title:hover {
 .article-metadata {
   padding-bottom: 1px;
   margin-bottom: 4px;
-  border-bottom: 1px solid #e3e3e3
+  border-bottom: 1px solid #e3e3e3;
 }
 
 .article-metadata a:hover {
@@ -77,4 +82,13 @@ a.article-title:hover {
 
 .account-heading {
   font-size: 2.5rem;
+}
+.card-year {
+  background-color: #b8ffd9;
+  border-radius: 10px;
+  padding: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  max-height: 30px;
 }
