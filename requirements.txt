@@ -7,6 +7,6 @@ flask_wtf
 email_validator
 numpy
 pandas
-sklearn
+scikit-learn
 flask_mail
 pillow
