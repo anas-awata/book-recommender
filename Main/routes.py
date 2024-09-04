@@ -13,6 +13,18 @@ import numpy as np
 from flask_login import login_user, current_user, logout_user, login_required
 import csv
 from csv import writer
+from functools import wraps
+from flask import abort
+from flask_login import current_user
+
+def admin_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if current_user.role != 'admin':
+            abort(403)
+        return f(*args, **kwargs)
+    return decorated_function
+
 
 posts = [
 	{
@@ -86,6 +98,7 @@ def upload(file_name, list_of_elem):
 
 @app.route("/uploadbook",methods=['GET','POST'])
 @login_required
+@admin_required
 def uploadbook():
 	form=UploadBook()
 	df=pd.read_csv('Bookz.csv')
@@ -121,6 +134,7 @@ def delete(isbn_num,file_name):
 
 @app.route("/deletebook",methods=['GET','POST'])
 @login_required
+@admin_required
 def deletebook():
 	form=DeleteBook()
 	if form.validate_on_submit():
@@ -170,6 +184,7 @@ def account():
 	return render_template('account.html', title='Account',image_file=image_file, form = form)
 
 @app.route("/add_favorite", methods=['POST'])
+@login_required
 def add_favorite():
     isbn = request.form.get('isbn')
     title = request.form.get('title')
@@ -192,6 +207,7 @@ def favorites():
 
 
 @app.route("/delete_favorite/<int:favorite_id>", methods=['POST'])
+@login_required
 def delete_favorite(favorite_id):
     favorite = Favorite.query.get_or_404(favorite_id)
     if favorite.user_id != current_user.id:
@@ -202,6 +218,7 @@ def delete_favorite(favorite_id):
     return redirect(url_for('favorites'))
 
 @app.route("/user_recommendation")
+@login_required
 def user_recommendation():
     user_id = current_user.id
     recommended_books = recom_by_favorites(user_id)

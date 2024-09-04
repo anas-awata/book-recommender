@@ -1,6 +1,5 @@
 from flask import Flask, abort, render_template, request, url_for, flash, redirect
 from flask_login import current_user
-from flask_migrate import Migrate
 from Main import form
 from Main.models import Favorite
 from form import FavoriteForm, RegistrationForm, LoginForm, BookForm, UploadBook, Contact, DeleteBook
@@ -11,6 +10,7 @@ import os
 import pandas as pd
 import numpy as np
 from flask_table import Table, Col
+from flask_migrate import Migrate
 
 class Results(Table):
     id = Col('Id', show=False)
@@ -22,6 +22,7 @@ SECRET_KEY = "5791628bb0b13ce0c676dfde280ba245"
 app.config['SECRET_KEY'] = SECRET_KEY
 app.config['SQLALCHEMY_DATABASE_URI']='sqlite:///site.db'
 db=SQLAlchemy(app)
+migrate = Migrate(app, db)
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
