@@ -1,0 +1,150 @@
+body {
+  background: #e5f0e7d1;
+  color: #000000;
+  margin-top: 3rem;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: #000000;
+}
+
+.bg-steel {
+  background-color: #424242;
+}
+
+.site-header .navbar-nav .nav-link {
+  font-size: 17px;
+  color: #51ffa2;
+}
+
+.site-header .navbar-nav .nav-link:hover {
+  color: #b8ffd9;
+}
+
+.site-header .navbar-nav .nav-link.active {
+  font-weight: 500;
+}
+
+.content-section {
+  background: linear-gradient(376deg, #79f979cc, black);
+  border: 1px solid #dddddd;
+  border-radius: 3px;
+  margin-bottom: 20px;
+  padding: 30px;
+  text-align: -webkit-center;
+}
+
+.article-title {
+  color: #444444;
+}
+
+a.article-title:hover {
+  color: #428bca;
+  text-decoration: none;
+}
+
+.article-content {
+  white-space: pre-line;
+}
+
+.article-img {
+  height: 65px;
+  width: 65px;
+  margin-right: 16px;
+}
+
+.article-metadata {
+  padding-bottom: 1px;
+  margin-bottom: 4px;
+  border-bottom: 1px solid #e3e3e3;
+}
+
+.article-metadata a:hover {
+  color: #333;
+  text-decoration: none;
+}
+
+.article-svg {
+  width: 25px;
+  height: 25px;
+  vertical-align: middle;
+}
+
+.account-img {
+  height: 125px;
+  width: 125px;
+  margin-right: 20px;
+  margin-bottom: 16px;
+}
+
+.account-heading {
+  color: white;
+  margin-top: 23px;
+  margin-right: 90rem;
+  font-size: 2.5rem;
+}
+.card-year {
+  background-color: #b8ffd9;
+  border-radius: 10px;
+  padding: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  max-height: 30px;
+  color: black;
+}
+
+.text-secondary {
+  margin-right: 87rem;
+}
+.form-control-label{
+  font-size: 20px;
+  color: white;
+}
+.form-control-lg{
+  width: 25rem;
+}
+.form-control-file{
+  text-align-last: center;
+}
+
+.border-botton{
+  text-align: center;
+  width: 20rem;
+    font-size: xx-large;
+    color: white;
+
+}
+.btn-outline-info{
+  border-color: #51ffa2;
+  color: #51ffa2;
+  width: 25rem;
+
+
+}
+a{
+
+  font-size: 18px;
+  color: #3131e29c;
+}
+.border-top{
+  font-size: 25px;
+  text-align: center;
+}
+.flex-wrap{
+  color: white;
+}
+
+
+.content-section{
+  box-shadow: 5px 1px #00000066;
+}
+
+label{
+color: white;
+}

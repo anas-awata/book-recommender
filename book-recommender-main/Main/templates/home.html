@@ -1,0 +1,141 @@
+{% extends "layout.html" %} {% block content %}
+
+<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+  <ol class="carousel-indicators">
+    <li
+      data-target="#carouselExampleIndicators"
+      data-slide-to="0"
+      class="active"
+    ></li>
+    <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+    <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+    <li data-target="#carouselExampleIndicators" data-slide-to="3"></li>
+    <li data-target="#carouselExampleIndicators" data-slide-to="4"></li>
+  </ol>
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+      <img
+        class="d-block w-100"
+        width="1200"
+        height="500"
+        src="https://wallpapercave.com/wp/wp2418219.jpg"
+      />
+      <div class="carousel-caption d-none d-md-block"></div>
+    </div>
+    <div class="carousel-item">
+      <img
+        class="d-block w-100"
+        width="1200"
+        height="500"
+        src="https://c1.wallpaperflare.com/preview/396/702/395/paper-coffee-table-cup.jpg"
+        alt="Second slide"
+      />
+      <div class="carousel-caption d-none d-md-block"></div>
+    </div>
+    <div class="carousel-item">
+      <img
+        class="d-block w-100"
+        width="1200"
+        height="500"
+        src="https://c4.wallpaperflare.com/wallpaper/66/858/381/books-quote-stephen-king-magic-wallpaper-preview.jpg"
+        alt="Third slide"
+      />
+      <div class="carousel-caption d-none d-md-block"></div>
+    </div>
+    <div class="carousel-item">
+      <img
+        class="d-block w-100"
+        width="1200"
+        height="500"
+        src="https://images.pexels.com/photos/4125893/pexels-photo-4125893.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+        alt="Fourth slide"
+      />
+      <div class="carousel-caption d-none d-md-block"></div>
+    </div>
+    <div class="carousel-item">
+      <img
+        class="d-block w-100"
+        width="1200"
+        height="500"
+        src="https://c4.wallpaperflare.com/wallpaper/695/702/347/game-of-thrones-book-quotes-wallpaper-preview.jpg"
+        alt="Fifth slide"
+      />
+      <div class="carousel-caption d-none d-md-block"></div>
+    </div>
+  </div>
+  <a
+    class="carousel-control-prev"
+    href="#carouselExampleIndicators"
+    role="button"
+    data-slide="prev"
+  >
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="sr-only">Previous</span>
+  </a>
+  <a
+    class="carousel-control-next"
+    href="#carouselExampleIndicators"
+    role="button"
+    data-slide="next"
+  >
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="sr-only">Next</span>
+  </a>
+</div>
+
+<hr />
+
+<div class="container">
+  <div class="header-container">
+    <h2 class="header" style="text-align: center">TOP BOOKS</h2>
+    <br />
+  </div>
+  <div class="d-flex flex-wrap" style="gap: 10px">
+    {% for w, x, y, z, isbn, publisher in content %}
+    <article
+      class="media content-section"
+      style="width: 250px; border-radius: 20px"
+    >
+      <div class="media-body">
+        <div class="article-metadata">
+          <img
+            class="book-cover-image"
+            src="{{ x }}"
+            align="center"
+            alt=""
+            width="100%"
+            height="200px"
+            style="border-radius: 20px 20px 0 0"
+          />
+        </div>
+        <div class="p-3">
+          <div class="d-flex justify-content-around">
+            <h6 style="white-space: wrap">{{ w }}</h6>
+            <div class="card-year">
+              <p style="margin: 0">{{ y }}</p>
+            </div>
+          </div>
+          <p class="article-content"><i>Author :</i> {{ z }}</p>
+          <p class="article-content"><i>Publisher :</i> {{ publisher }}</p>
+          <form method="POST" action="{{ url_for('add_favorite') }}">
+            <input type="hidden" name="isbn" value="{{ isbn }}" />
+            <input type="hidden" name="title" value="{{ w }}" />
+            <input type="hidden" name="author" value="{{ z }}" />
+            <input type="hidden" name="publisher" value="{{ publisher }}" />
+            <input type="hidden" name="image_url" value="{{ x }}" />
+            <input type="hidden" name="year" value="{{ y }}" />
+            <!-- Include year here -->
+            <button type="submit" class="btn btn-primary btn-sm">
+              Add to Favorites
+            </button>
+          </div>
+          </form>
+
+        </div>
+
+    </article>
+    {% endfor %}
+  </div>
+</div>
+
+{% endblock content %}
