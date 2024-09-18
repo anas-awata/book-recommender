@@ -21,14 +21,14 @@
 <body>
     <header class="site-header">
       <nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top">
-        <div class="container">
+        <div class="d-flex align-items-center justify-content-around w-100 px-3">
           <a class="navbar-brand mr-4" href="/">Good Old Friend</a>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
-          <div class="collapse navbar-collapse" id="navbarToggle">
+          <div class="collapse navbar-collapse d-flex justify-content-around" id="navbarToggle">
           	{% if current_user.is_authenticated %}
-            	<div class="navbar-nav mr-auto">
+            	<div class="navbar-nav">
             	<a class="nav-item nav-link" href="{{ url_for('home') }}">Home</a>
             	{% if current_user.role == 'admin' %}
             	<a class="nav-item nav-link" href="{{ url_for('uploadbook') }}">Upload Book</a>
@@ -38,6 +38,8 @@
             	<a class="nav-item nav-link" href="{{ url_for('recommender') }}">Recommender</a>
 				<a class="nav-item nav-link" href="{{ url_for('favorites') }}">Favorites</a>
 				<a class="nav-item nav-link" href="{{ url_for('user_recommendation') }}">User Recommendations</a>
+        <a class="nav-item nav-link" href="{{ url_for('want_to_read') }}">Want to Read</a>
+        <a class="nav-item nav-link" href="{{ url_for('read_before') }}">Read Before</a>
             	</div>
             <!-- Navbar Right Side -->
             	<div class="navbar-nav">
@@ -45,8 +47,9 @@
             	<a class="nav-item nav-link" href="{{ url_for('logout') }}">Logout</a>
             	</div>
             {% else %}
-            	<div class="navbar-nav mr-auto">
+            	<div class="navbar-nav">
             	<a class="nav-item nav-link" href="{{ url_for('home') }}">Home</a>
+              <a class="nav-item nav-link" href="{{ url_for('about') }}">about us</a>
             	</div>
            		<div class="navbar-nav">      
             	<a class="nav-item nav-link" href="{{ url_for('login') }}">Login</a>

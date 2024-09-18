@@ -1,7 +1,7 @@
 from flask import Flask, abort, render_template, url_for, flash, redirect, request
 from Main.form import RegistrationForm, LoginForm, BookForm, UploadBook, Contact, DeleteBook, UpdateAccount
 from Main.recomm import recom, bookdisp, recom_by_favorites
-from Main.models import Favorite, User
+from Main.models import Favorite, User, WantToRead, ReadBefore
 from flask_sqlalchemy import SQLAlchemy
 from Main import app,db,bcrypt
 from flask_mail import Message
@@ -25,6 +25,41 @@ def admin_required(f):
         return f(*args, **kwargs)
     return decorated_function
 
+
+
+def get_book_by_name(book_name):
+    # Load the data from the CSV files
+    books_df = pd.read_csv("Bookz.csv")
+    images_df = pd.read_csv("Imagez.csv")
+
+    # Clean column names by stripping spaces and converting to lower case
+    books_df.columns = books_df.columns.str.strip().str.lower()
+    images_df.columns = images_df.columns.str.strip().str.lower()
+
+    # Normalize the book_name for case-insensitive matching
+    book_name_clean = book_name.strip().lower()
+
+    # Search for the book by its name (case-insensitive)
+    book = books_df[books_df['title'].str.lower() == book_name_clean]
+
+    if not book.empty:
+        # Get the first matching book's details
+        book_info = book.iloc[0].to_dict()
+        index = book_info.get('index')
+
+        # Find the image URL corresponding to the book's index
+        image = images_df[images_df['index'] == index]
+
+        if not image.empty:
+            # Add the image URL to the book's details
+            book_info['image_url'] = image.iloc[0]['image-url-m']
+        else:
+            # Handle case where image URL is not found
+            book_info['image_url'] = None
+
+        return book_info
+    else:
+        return None
 
 posts = [
 	{
@@ -201,9 +236,14 @@ def add_favorite():
         flash('Failed to add the book to favorites. Please try again.', 'danger')
     return redirect(url_for('home'))
 @app.route("/favorites")
+@login_required
 def favorites():
+    recommended_books = recom_by_favorites(current_user.id)
     user_favorites = Favorite.query.filter_by(user_id=current_user.id).all()
-    return render_template('favorites.html', title='Your Favorites', favorites=user_favorites)
+    if isinstance(recommended_books, str):  # In case of an error message
+        flash(recommended_books, 'danger')
+        return redirect(url_for('home'))
+    return render_template('favorites.html', title='Your Favorites', favorites=user_favorites, final=recommended_books)
 
 
 @app.route("/delete_favorite/<int:favorite_id>", methods=['POST'])
@@ -226,3 +266,91 @@ def user_recommendation():
         flash(recommended_books, 'danger')
         return redirect(url_for('home'))
     return render_template('user_recommendation.html', title='Recommended Books', final=recommended_books)
+
+
+@app.route("/book/<string:book_title>")
+@login_required
+def book_details(book_title):
+    # Get the book details by name from the CSV
+    book = get_book_by_name(book_title)
+
+    if book is None:
+        # If the book is not found, flash a message and redirect to home
+        flash(f'Book "{book_title}" not found in the library.', 'danger')
+        return redirect(url_for('favorites'))
+
+    # Render the book details page with the book's data
+    return render_template('book_details.html', title=book['title'], book=book)
+
+@app.route("/add_want_to_read", methods=['POST'])
+def add_want_to_read():
+    isbn = request.form.get('isbn')
+    title = request.form.get('title')
+    author = request.form.get('author')
+    publisher = request.form.get('publisher')
+    image_url = request.form.get('image_url')
+    year = request.form.get('year')
+    if isbn and title and author and publisher and image_url and year:
+        want_to_read = WantToRead(isbn=isbn, title=title, author=author, publisher=publisher, image_url=image_url, year=year, user_id=current_user.id)
+        db.session.add(want_to_read)
+        db.session.commit()
+        flash('Book added to your Want to Read list!', 'success')
+    else:
+        flash('Failed to add the book to your Want to Read list. Please try again.', 'danger')
+    return redirect(url_for('home'))
+
+@app.route("/add_read_before", methods=['POST'])
+def add_read_before():
+    isbn = request.form.get('isbn')
+    title = request.form.get('title')
+    author = request.form.get('author')
+    publisher = request.form.get('publisher')
+    image_url = request.form.get('image_url')
+    year = request.form.get('year')
+    if isbn and title and author and publisher and image_url and year:
+        read_before = ReadBefore(isbn=isbn, title=title, author=author, publisher=publisher, image_url=image_url, year=year, user_id=current_user.id)
+        db.session.add(read_before)
+        db.session.commit()
+        flash('Book added to your Read Before list!', 'success')
+    else:
+        flash('Failed to add the book to your Read Before list. Please try again.', 'danger')
+    return redirect(url_for('home'))
+
+@app.route("/want_to_read")
+@login_required
+def want_to_read():
+    # Fetch the list of books that the current user wants to read
+    books = WantToRead.query.filter_by(user_id=current_user.id).all()
+    return render_template('want_to_read.html', books=books)
+
+@app.route("/read_before")
+@login_required
+def read_before():
+    # Fetch the list of books that the current user has read
+    books = ReadBefore.query.filter_by(user_id=current_user.id).all()
+    return render_template('read_before.html', books=books)
+
+@app.route("/delete_want_to_read/<int:book_id>", methods=['POST'])
+@login_required
+def delete_want_to_read(book_id):
+    book = WantToRead.query.filter_by(id=book_id, user_id=current_user.id).first()
+    if book:
+        db.session.delete(book)
+        db.session.commit()
+        flash('Book removed from Want to Read list!', 'success')
+    else:
+        flash('Failed to remove the book. Please try again.', 'danger')
+    return redirect(url_for('want_to_read'))
+
+@app.route("/delete_read_before/<int:book_id>", methods=['POST'])
+@login_required
+def delete_read_before(book_id):
+    book = ReadBefore.query.filter_by(id=book_id, user_id=current_user.id).first()
+    if book:
+        db.session.delete(book)
+        db.session.commit()
+        flash('Book removed from Read Before list!', 'success')
+    else:
+        flash('Failed to remove the book. Please try again.', 'danger')
+    return redirect(url_for('read_before'))
+

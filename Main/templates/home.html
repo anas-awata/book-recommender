@@ -18,7 +18,7 @@
         class="d-block w-100"
         width="1200"
         height="500"
-        src="https://wallpapercave.com/wp/wp2418219.jpg"
+        src="https://miro.medium.com/v2/resize:fit:1358/1*RLEoqJa5Lnb1xkpdOdQfNQ.png"
       />
       <div class="carousel-caption d-none d-md-block"></div>
     </div>
@@ -27,7 +27,7 @@
         class="d-block w-100"
         width="1200"
         height="500"
-        src="https://c1.wallpaperflare.com/preview/396/702/395/paper-coffee-table-cup.jpg"
+        src="https://www.nessgraphica.com/wp-content/uploads/2024/01/Book-Cover-Design-Trends-2024-J-800x324.jpg"
         alt="Second slide"
       />
       <div class="carousel-caption d-none d-md-block"></div>
@@ -47,7 +47,7 @@
         class="d-block w-100"
         width="1200"
         height="500"
-        src="https://images.pexels.com/photos/4125893/pexels-photo-4125893.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+        src="https://www.nessgraphica.com/wp-content/uploads/2024/01/Book-Cover-Design-Trends-2024-M-800x324.jpg"
         alt="Fourth slide"
       />
       <div class="carousel-caption d-none d-md-block"></div>
@@ -57,7 +57,7 @@
         class="d-block w-100"
         width="1200"
         height="500"
-        src="https://c4.wallpaperflare.com/wallpaper/695/702/347/game-of-thrones-book-quotes-wallpaper-preview.jpg"
+        src="https://bookbrush.com/custom-code/images/new-homepage/cover-creator-new.webp"
         alt="Fifth slide"
       />
       <div class="carousel-caption d-none d-md-block"></div>
@@ -92,6 +92,10 @@
   </div>
   <div class="d-flex flex-wrap" style="gap: 10px">
     {% for w, x, y, z, isbn, publisher in content %}
+    <a
+    href="{{ url_for('book_details', book_title=w) }}"
+    style="text-decoration: none"
+  >
     <article
       class="media content-section"
       style="width: 250px; border-radius: 20px"
@@ -128,10 +132,13 @@
             <button type="submit" class="btn btn-primary btn-sm">
               Add to Favorites
             </button>
+          </div>
           </form>
+
         </div>
-      </div>
+
     </article>
+    </a>
     {% endfor %}
   </div>
 </div>
