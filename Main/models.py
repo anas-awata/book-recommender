@@ -58,3 +58,18 @@ class ReadBefore(db.Model):
 
     def __repr__(self):
         return f"ReadBefore('{self.title}', '{self.author}')"
+
+class Clicked(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    isbn = db.Column(db.String(20), nullable=False)
+    title = db.Column(db.String(100), nullable=False)
+    author = db.Column(db.String(100), nullable=False)
+    publisher = db.Column(db.String(100), nullable=False)
+    image_url = db.Column(db.String(200), nullable=False)
+    year = db.Column(db.String(10), nullable=False)
+    count = db.Column(db.Integer, default=1)
+    user = db.relationship('User', backref='clicked', lazy=True)
+
+    def __repr__(self):
+        return f"ReadBefore('{self.title}', '{self.author}')"

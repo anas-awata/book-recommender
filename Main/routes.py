@@ -1,7 +1,7 @@
 from flask import Flask, abort, render_template, url_for, flash, redirect, request
 from Main.form import RegistrationForm, LoginForm, BookForm, UploadBook, Contact, DeleteBook, UpdateAccount
-from Main.recomm import recom, bookdisp, recom_by_favorites
-from Main.models import Favorite, User, WantToRead, ReadBefore
+from Main.recomm import recom, bookdisp, recom_by_favorites,recommend_books
+from Main.models import Favorite, User, WantToRead, ReadBefore, Clicked
 from flask_sqlalchemy import SQLAlchemy
 from Main import app,db,bcrypt
 from flask_mail import Message
@@ -261,7 +261,7 @@ def delete_favorite(favorite_id):
 @login_required
 def user_recommendation():
     user_id = current_user.id
-    recommended_books = recom_by_favorites(user_id)
+    recommended_books = recommend_books(user_id)
     if isinstance(recommended_books, str):  # In case of an error message
         flash(recommended_books, 'danger')
         return redirect(url_for('home'))
@@ -278,6 +278,28 @@ def book_details(book_title):
         # If the book is not found, flash a message and redirect to home
         flash(f'Book "{book_title}" not found in the library.', 'danger')
         return redirect(url_for('favorites'))
+
+    # Check if the book already exists in the Clicked model
+    clicked_book = Clicked.query.filter_by(user_id=current_user.id, isbn=book['isbn']).first()
+
+    if clicked_book:
+        # If the book exists, increment the count
+        clicked_book.count += 1
+    else:
+        # If the book does not exist, add it to the Clicked model
+        clicked_book = Clicked(
+            user_id=current_user.id,
+            isbn=book['isbn'],
+            title=book['title'],
+            author=book['author'],
+            publisher=book['publisher'],
+            image_url=book['image_url'],
+            year=book['year']
+        )
+        db.session.add(clicked_book)
+    
+    # Commit changes to the database
+    db.session.commit()
 
     # Render the book details page with the book's data
     return render_template('book_details.html', title=book['title'], book=book)
@@ -353,4 +375,5 @@ def delete_read_before(book_id):
     else:
         flash('Failed to remove the book. Please try again.', 'danger')
     return redirect(url_for('read_before'))
+
 

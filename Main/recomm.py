@@ -4,7 +4,7 @@ import pandas as pd
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
-from Main.models import Favorite
+from Main.models import Favorite,Clicked,WantToRead,ReadBefore
 
 def recom(books_user_likes):
 	def get_title_from_index(index):
@@ -136,5 +136,63 @@ def recom_by_favorites(user_id):
 
     # Shuffle the recommendations
     random.shuffle(unique_recommendations)
+
+    return unique_recommendations[:10]
+
+
+def recommend_books(user_id):
+    # Fetch user-related data
+    clicked_books = Clicked.query.filter_by(user_id=user_id).all()
+    want_to_read_books = WantToRead.query.filter_by(user_id=user_id).all()
+    read_before_books = ReadBefore.query.filter_by(user_id=user_id).all()
+    favorite_books = Favorite.query.filter_by(user_id=user_id).all()
+
+    # Create a dictionary to store book scores
+    book_scores = {}
+
+    # Add scores from Clicked table
+    for book in clicked_books:
+        book_scores[book.title] = book.count
+
+    # Add scores for WantToRead books
+    for book in want_to_read_books:
+        if book.title in book_scores:
+            book_scores[book.title] += 4
+        else:
+            book_scores[book.title] = 4
+
+    # Add scores for ReadBefore books
+    for book in read_before_books:
+        if book.title in book_scores:
+            book_scores[book.title] += 5
+        else:
+            book_scores[book.title] = 5
+
+    # Add scores for Favorite books
+    for book in favorite_books:
+        if book.title in book_scores:
+            book_scores[book.title] += 6
+        else:
+            book_scores[book.title] = 6
+
+    # Generate recommendations and associate them with their scores
+    recommendations_with_scores = []
+
+    for title, score in book_scores.items():
+        recommendations = recom(title)
+        for rec in recommendations:
+            # Store recommendations with the score of the book they were recommended by
+            recommendations_with_scores.append((rec, score))
+
+    # Sort recommendations by the score of the book that generated them
+    sorted_recommendations = sorted(recommendations_with_scores, key=lambda x: x[1], reverse=True)
+    
+    # Remove duplicates while maintaining order
+    seen = set()
+    unique_recommendations = []
+    for rec, _ in sorted_recommendations:
+        if rec[0] not in seen:
+            unique_recommendations.append(rec)
+            seen.add(rec[0])
 
     return unique_recommendations[:10]
