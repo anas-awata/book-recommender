@@ -12,9 +12,9 @@
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='main.css') }}">
 
     {% if title %}
-        <title>Good Old Friend</title>
+        <title>Book Recommender</title>
     {% else %}
-        <title>Good Old Friend - Online Books Hub</title>
+        <title>Book Recommender - Online Books Hub</title>
     {% endif %}
 </head>
 
@@ -22,7 +22,7 @@
     <header class="site-header">
       <nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top">
         <div class="d-flex align-items-center justify-content-around w-100 px-3">
-          <a class="navbar-brand mr-4" href="/">Good Old Friend</a>
+          <a class="navbar-brand mr-4" href="/">Book Recommender</a>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
@@ -34,7 +34,8 @@
             	<a class="nav-item nav-link" href="{{ url_for('uploadbook') }}">Upload Book</a>
             	<a class="nav-item nav-link" href="{{ url_for('deletebook') }}">Delete Book</a>
             	{% endif %}
-            	<a class="nav-item nav-link" href="{{ url_for('contact') }}">Contact Us</a>
+            	<!-- <a class="nav-item nav-link" href="{{ url_for('contact') }}">Contact Us</a> -->
+              <a class="nav-item nav-link" href="{{ url_for('about') }}">about us</a>
             	<a class="nav-item nav-link" href="{{ url_for('recommender') }}">Recommender</a>
 				<a class="nav-item nav-link" href="{{ url_for('favorites') }}">Favorites</a>
 				<a class="nav-item nav-link" href="{{ url_for('user_recommendation') }}">User Recommendations</a>
@@ -49,7 +50,7 @@
             {% else %}
             	<div class="navbar-nav">
             	<a class="nav-item nav-link" href="{{ url_for('home') }}">Home</a>
-              <a class="nav-item nav-link" href="{{ url_for('about') }}">about us</a>
+              
             	</div>
            		<div class="navbar-nav">      
             	<a class="nav-item nav-link" href="{{ url_for('login') }}">Login</a>

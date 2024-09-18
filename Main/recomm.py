@@ -7,74 +7,88 @@ from sklearn.metrics.pairwise import cosine_similarity
 from Main.models import Favorite,Clicked,WantToRead,ReadBefore
 
 def recom(books_user_likes):
-	def get_title_from_index(index):
-		return df[df.index == index]["Title"].values[0]
+    def get_title_from_index(index):
+        try:
+            return df[df.index == index]["Title"].values[0]
+        except IndexError:
+            return None
 
-	def get_index_from_title(Title):
-		return df[df.Title == Title]["index"].values[0]
+    def get_index_from_title(Title):
+        try:
+            return df[df.Title == Title]["index"].values[0]
+        except IndexError:
+            return None
 
-	books = pd.read_csv("C:\\Users\\Anas.O\\\Desktop\\books\\book-recommender\\Bookz.csv")
-	books=books[:1000]
-	df=books
-	img=pd.read_csv("C:\\Users\\Anas.O\\\Desktop\\books\\book-recommender\\Imagez.csv")
+    books = pd.read_csv("Bookz.csv")
+    books = books[:1000]
+    df = books.copy()
+    img = pd.read_csv("Imagez.csv")
 
+    features = ['Title', 'Author', 'Publisher']
+    for feature in features:
+        df[feature] = df[feature].fillna('')
 
-	features = ['Title','Author','Publisher']
-	for feature in features:
-		df[feature] = df[feature].fillna('')
+    def combine_features(row):
+        try:
+            return row['Title'] + " " + row['Author'] + " " + row['Publisher']
+        except:
+            return ''
 
-	def combine_features(row):
-		try:
-			return row['Title'] +" "+row['Author']+" "+row['Publisher']
-		except:
-			print("Error:", row)
+    df["combined_features"] = df.apply(combine_features, axis=1)
 
-	df["combined_features"] = df.apply(combine_features,axis=1)
+    # Create count matrix from this new combined column
+    cv = CountVectorizer()
+    count_matrix = cv.fit_transform(df["combined_features"])
 
-#Create count matrix from this new combined column
-	cv = CountVectorizer()
-	count_matrix = cv.fit_transform(df["combined_features"])
+    # Compute the Cosine Similarity based on the count_matrix
+    cosine_sim = cosine_similarity(count_matrix) 
 
-#Compute the Cosine Similarity based on the count_matrix
-	cosine_sim = cosine_similarity(count_matrix) 
+    # Get index of this book from its title
+    books_index = get_index_from_title(books_user_likes)
+    if books_index is None:
+        return []  # Return an empty list if the book is not found
 
-#Get index of this book from its title
-	books_index = get_index_from_title(books_user_likes)
-	similar_books = list(enumerate(cosine_sim[books_index]))
+    similar_books = list(enumerate(cosine_sim[books_index]))
 
-#Get a list of similar books in descending order of similarity score
-	sorted_similar_books = sorted(similar_books,key=lambda x:x[1],reverse=True)
+    # Get a list of similar books in descending order of similarity score
+    sorted_similar_books = sorted(similar_books, key=lambda x: x[1], reverse=True)
 
-# titles of first 50 books
-	l=[]
-	t=[]
-	i=0
-	for element in sorted_similar_books:
-			l.append(get_title_from_index(element[0]))
-			t.append(get_index_from_title(l[i]))
-			i=i+1
-			if i>9:
-				break
+    # Titles of first 10 books
+    l = []
+    t = []
+    i = 0
+    for element in sorted_similar_books:
+        title = get_title_from_index(element[0])
+        if title:
+            l.append(title)
+            t.append(get_index_from_title(title))
+            i += 1
+        if i > 9:
+            break
 
-	output=l
-	index=t
+    output = l
+    index = t
 
-	imgg=[]
-	year=[]
-	author=[]
-	final_list=[]
-	for i in index:
-		imgg.append(img["Image-URL-M"][i-1])
-		year.append(books["Year"][i-1])
-		author.append(books["Author"][i-1])
-	for i in range(len(index)):
-		temp=[]
-		temp.append(output[i])
-		temp.append(imgg[i])
-		temp.append(year[i])
-		temp.append(author[i])
-		final_list.append(temp)
-	return final_list
+    imgg = []
+    year = []
+    author = []
+    final_list = []
+
+    for i in index:
+        if i is not None and i >= 0 and i < len(img):
+            imgg.append(img["Image-URL-M"].iloc[i] if i < len(img) else '')
+            year.append(books["Year"].iloc[i] if i < len(books) else '')
+            author.append(books["Author"].iloc[i] if i < len(books) else '')
+
+    for i in range(len(index)):
+        temp = []
+        temp.append(output[i])
+        temp.append(imgg[i] if i < len(imgg) else '')
+        temp.append(year[i] if i < len(year) else '')
+        temp.append(author[i] if i < len(author) else '')
+        final_list.append(temp)
+
+    return final_list
 
 
 
