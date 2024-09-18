@@ -32,12 +32,18 @@ h6 {
 }
 
 .content-section {
-  background: linear-gradient(376deg, #79f979cc, #ffffff);
+  /* background: linear-gradient(376deg, #79f979cc, #ffffff); */
   border: 1px solid #dddddd;
-  border-radius: 3px;
-  margin-bottom: 20px;
+  border-radius: 20px;
+  /* margin-bottom: 20px;
   padding: 30px;
-  text-align: -webkit-center;
+  text-align: -webkit-center; */
+}
+
+article {
+  height: 400px;
+  width: 200px;
+  font-size: small;
 }
 
 .article-title {
@@ -51,6 +57,7 @@ a.article-title:hover {
 
 .article-content {
   white-space: pre-line;
+  margin: 0 !important;
 }
 
 .article-img {
@@ -103,54 +110,49 @@ a.article-title:hover {
 .text-secondary {
   margin-right: 87rem;
 }
-.form-control-label{
+.form-control-label {
   font-size: 20px;
   color: white;
 }
-.form-control-lg{
+.form-control-lg {
   width: 25rem;
 }
-.form-control-file{
+.form-control-file {
   text-align-last: center;
 }
 
-.border-botton{
+.border-botton {
   text-align: center;
   width: 20rem;
-    font-size: xx-large;
-    color: white;
-
+  font-size: xx-large;
+  color: white;
 }
-.btn-outline-info{
+.btn-outline-info {
   border-color: #51ffa2;
   color: #51ffa2;
   width: 25rem;
-
-
 }
-a{
-
+a {
   font-size: 18px;
   color: #3131e29c;
 }
-.border-top{
+.border-top {
   font-size: 25px;
   text-align: center;
 }
-.flex-wrap{
+.flex-wrap {
   color: white;
 }
 
-
-.content-section{
+.content-section {
   /* box-shadow: 5px 1px #00000066; */
 }
 
-label{
-color: white;
+label {
+  color: white;
 }
 
-.aboutp{
+.aboutp {
   text-align-last: center;
   font-family: cursive;
   font-size: 18px;

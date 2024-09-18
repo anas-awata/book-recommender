@@ -1,19 +1,22 @@
-{% extends "layout.html" %}
-{% block content %}
+{% extends "layout.html" %} {% block content %}
 <div class="container">
-  <h2 style="font-family: cursive; text-align: center; margin-top: 70px">
+  <h2
+    style="
+      font-family: cursive;
+      text-align: center;
+      margin-top: 70px;
+      margin-bottom: 20px;
+    "
+  >
     Books You've Read Before
   </h2>
-  <div class="d-flex flex-wrap" style="gap: 10px">
+  <div class="d-flex flex-wrap" style="gap: 25px">
     {% for book in books %}
     <a
       href="{{ url_for('book_details', book_title=book.title) }}"
       style="text-decoration: none"
     >
-      <article
-        class="media content-section"
-        style="height: 30rem; width: 318px; border-radius: 20px"
-      >
+      <article class="media content-section">
         <div class="media-body">
           <div class="article-metadata">
             <img
@@ -42,7 +45,7 @@
               method="POST"
               style="display: inline"
             >
-              <button type="submit" class="btn btn-danger btn-sm">
+              <button type="submit" class="btn btn-danger btn-sm mt-3">
                 Delete
               </button>
             </form>

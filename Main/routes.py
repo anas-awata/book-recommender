@@ -273,11 +273,17 @@ def user_recommendation():
 def book_details(book_title):
     # Get the book details by name from the CSV
     book = get_book_by_name(book_title)
-
+    
+    # Check if the book was found
     if book is None:
         # If the book is not found, flash a message and redirect to home
         flash(f'Book "{book_title}" not found in the library.', 'danger')
         return redirect(url_for('favorites'))
+
+    # Check if the book is in user's favorite list, want to read list, and read before list
+    is_favorite = Favorite.query.filter_by(user_id=current_user.id, isbn=book['isbn']).first() is not None
+    is_want_to_read = WantToRead.query.filter_by(user_id=current_user.id, isbn=book['isbn']).first() is not None
+    is_read_before = ReadBefore.query.filter_by(user_id=current_user.id, isbn=book['isbn']).first() is not None
 
     # Check if the book already exists in the Clicked model
     clicked_book = Clicked.query.filter_by(user_id=current_user.id, isbn=book['isbn']).first()
@@ -302,7 +308,8 @@ def book_details(book_title):
     db.session.commit()
 
     # Render the book details page with the book's data
-    return render_template('book_details.html', title=book['title'], book=book)
+    return render_template('book_details.html', title=book['title'], book=book, is_favorite=is_favorite, is_want_to_read=is_want_to_read, is_read_before=is_read_before)
+
 
 @app.route("/add_want_to_read", methods=['POST'])
 def add_want_to_read():
