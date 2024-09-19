@@ -1,6 +1,11 @@
 {% extends "layout.html" %} {% block content %}
 
-<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+<div
+  id="carouselExampleIndicators"
+  class="carousel slide"
+  data-ride="carousel"
+  data-bs-interval="1000"
+>
   <ol class="carousel-indicators">
     <li
       data-target="#carouselExampleIndicators"
@@ -13,7 +18,7 @@
     <li data-target="#carouselExampleIndicators" data-slide-to="4"></li>
   </ol>
   <div class="carousel-inner">
-    <div class="carousel-item active">
+    <div class="carousel-item active animate__animated animate__fadeIn">
       <img
         class="d-block w-100"
         width="1200"
@@ -22,7 +27,7 @@
       />
       <div class="carousel-caption d-none d-md-block"></div>
     </div>
-    <div class="carousel-item">
+    <div class="carousel-item animate__animated animate__fadeIn">
       <img
         class="d-block w-100"
         width="1200"
@@ -32,7 +37,7 @@
       />
       <div class="carousel-caption d-none d-md-block"></div>
     </div>
-    <div class="carousel-item">
+    <div class="carousel-item animate__animated animate__fadeIn">
       <img
         class="d-block w-100"
         width="1200"
@@ -42,7 +47,7 @@
       />
       <div class="carousel-caption d-none d-md-block"></div>
     </div>
-    <div class="carousel-item">
+    <div class="carousel-item animate__animated animate__fadeIn">
       <img
         class="d-block w-100"
         width="1200"
@@ -52,7 +57,7 @@
       />
       <div class="carousel-caption d-none d-md-block"></div>
     </div>
-    <div class="carousel-item">
+    <div class="carousel-item animate__animated animate__fadeIn">
       <img
         class="d-block w-100"
         width="1200"
@@ -88,39 +93,58 @@
 <div class="container">
   <div class="header-container">
     <h2 class="header" style="text-align: center">About US</h2>
-    <br>
+    <br />
 
-    <p class="aboutp">Book Recommender is more than just a bookstore; 
-        it's a place where books become your old friends.  <br>
-        We believe that every reader has a unique journey, 
-        and our goal is to help you find the perfect book to accompany you on your adventure.
-
-        Whether you're looking for a classic novel, a thrilling mystery,
-         or a heartwarming romance, our carefully curated collection has something for everyone.
-          Our recommendation system, suggests books tailored to your individual preferences.
-        <br> <br>
-        <span>Join us on this literary journey and discover your next favorite read.</span></p>
+    <p class="aboutp">
+      Book Recommender is more than just a bookstore; it's a place where books
+      become your old friends. <br />
+      We believe that every reader has a unique journey, and our goal is to help
+      you find the perfect book to accompany you on your adventure. Whether
+      you're looking for a classic novel, a thrilling mystery, or a heartwarming
+      romance, our carefully curated collection has something for everyone. Our
+      recommendation system, suggests books tailored to your individual
+      preferences.
+      <br />
+      <br />
+      <span
+        >Join us on this literary journey and discover your next favorite
+        read.</span
+      >
+    </p>
     <br />
   </div>
- <br> <br> <br>
-  <h2 class="header" style="text-align: center">    What Our Readers Say</h2>
-  <br>
+  <br />
+  <br />
+  <br />
+  <h2 class="header" style="text-align: center">What Our Readers Say</h2>
+  <br />
   <div class="reviews">
-
-
-    <img src="https://png.pngtree.com/png-vector/20220709/ourmid/pngtree-businessman-user-avatar-wearing-suit-with-red-tie-png-image_5809521.png" alt="Avatar" style="width:90px">
-    <p><span>Chris Fox.</span> </p>
-    <p>"As a lifelong reader, I've tried many online bookstores, 
-        but Book Recommender is by far the best.
-         Their curated collections and personalized
-          recommendations make it feel like I have a personal librarian."</p>
-  </div>
-  
-  <div class="reviews">
-    <img src="https://w7.pngwing.com/pngs/4/736/png-transparent-female-avatar-girl-face-woman-user-flat-classy-users-icon-thumbnail.png" alt="Avatar" style="width:90px">
-    <p><span >Rebecca Flex.</span> </p>
-    <p>"I'm not a big reader, but Book Recommender has helped me find books that I actually enjoy.
-         The recommendations are perfect for someone who's just starting out."</p>
+    <img
+      src="https://png.pngtree.com/png-vector/20220709/ourmid/pngtree-businessman-user-avatar-wearing-suit-with-red-tie-png-image_5809521.png"
+      alt="Avatar"
+      style="width: 90px"
+    />
+    <p><span>Chris Fox.</span></p>
+    <p>
+      "As a lifelong reader, I've tried many online bookstores, but Book
+      Recommender is by far the best. Their curated collections and personalized
+      recommendations make it feel like I have a personal librarian."
+    </p>
   </div>
 
-{% endblock content %}
+  <div class="reviews">
+    <img
+      src="https://w7.pngwing.com/pngs/4/736/png-transparent-female-avatar-girl-face-woman-user-flat-classy-users-icon-thumbnail.png"
+      alt="Avatar"
+      style="width: 90px"
+    />
+    <p><span>Rebecca Flex.</span></p>
+    <p>
+      "I'm not a big reader, but Book Recommender has helped me find books that
+      I actually enjoy. The recommendations are perfect for someone who's just
+      starting out."
+    </p>
+  </div>
+
+  {% endblock content %}
+</div>
