@@ -199,3 +199,76 @@ label {
     display: block;
   }
 }
+
+body {
+  background-color: #f7fafc;
+  color: #000000;
+  margin-top: 3rem;
+  font-family: 'Roboto', sans-serif;
+}
+h2 {
+  text-align: center;
+  margin-top: 30px;
+}
+.carousel-item {
+  transition: transform 1.5s ease-in-out, opacity 0.8s ease;
+}
+.media {
+  transition: transform 0.3s;
+  border-radius: 20px;
+  overflow: hidden;
+  background-color: #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+.media:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+.carousel-inner img {
+  border-radius: 20px;
+}
+.card-year {
+  background-color: #51ffa2;
+  border-radius: 5px;
+  padding: 4px 8px;
+}
+.carousel-caption {
+  background: rgba(0, 0, 0, 0.6);
+  padding: 10px;
+  border-radius: 10px;
+}
+.header-container {
+  margin-bottom: 40px;
+}
+
+ /* Image Animation */
+ @keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.book-title {
+  animation: fadeIn 1.2s ease;
+  color: #333;
+  font-weight: bold;
+  text-align: start;
+}
+
+.book-img:hover {
+  transform: scale(1.05);
+  transition: transform 0.3s ease-in-out;
+}
+
+.add-btn {
+  transition: all 0.2s ease;
+}
+
+.add-btn:hover {
+  transform: scale(1.05);
+}

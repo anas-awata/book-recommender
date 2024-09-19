@@ -76,9 +76,9 @@ def recom(books_user_likes):
 
     for i in index:
         if i is not None and i >= 0 and i < len(img):
-            imgg.append(img["Image-URL-M"].iloc[i] if i < len(img) else '')
-            year.append(books["Year"].iloc[i] if i < len(books) else '')
-            author.append(books["Author"].iloc[i] if i < len(books) else '')
+            imgg.append(img["Image-URL-L"].iloc[i -1] if i < len(img) else '')
+            year.append(books["Year"].iloc[i -1] if i < len(books) else '')
+            author.append(books["Author"].iloc[i -1] if i < len(books) else '')
 
     for i in range(len(index)):
         temp = []
@@ -108,7 +108,7 @@ def bookdisp():
 
     for i in r:
         title.append(books["Title"][i-1])
-        imgg.append(img["Image-URL-M"][i-1])
+        imgg.append(img["Image-URL-L"][i-1])
         year.append(books["Year"][i-1])
         author.append(books["Author"][i-1])
         isbn.append(books["ISBN"][i-1])

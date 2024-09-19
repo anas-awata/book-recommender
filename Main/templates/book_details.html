@@ -1,60 +1,63 @@
-{% extends "layout.html" %} {% block content %}
-<div class="container" style="margin-top: 50px">
-  <div class="row">
-    <div class="col-md-4">
-      <img
-        class=""
-        src="{{ book.image_url }}"
-        align="center"
-        alt="{{ book.title }}"
-        width="100%"
-        height="400px"
-        style="border-radius: 20px 20px 0 0"
-      />
+{% extends "layout.html" %}
+{% block content %}
+<div class="container" style="margin-top: 50px;">
+  <div class="card shadow-lg p-4" style="border-radius: 20px;">
+    <div class="row">
+      <div class="col-md-4 text-center">
+        <img
+          class="book-img img-fluid"
+          src="{{ book.image_url }}"
+          alt="{{ book.title }}"
+          style="height: 400px; object-fit: cover; border-radius: 20px; animation: fadeIn 1.5s ease;"
+          onerror="this.src='https://img.freepik.com/premium-psd/book-cover-mockup_125540-572.jpg';"
+        />
+      </div>
+      <div class="col-md-8">
+        <h2 class="book-title">{{ book.title }}</h2>
+        <p><strong>Author:</strong> {{ book.author }}</p>
+        <p><strong>Publisher:</strong> {{ book.publisher }}</p>
+        <p><strong>Year:</strong> {{ book.year }}</p>
+      </div>
     </div>
-    <div class="col-md-8">
-      <h2>{{ book.title }}</h2>
-      <p><strong>Author:</strong> {{ book.author }}</p>
-      <p><strong>Publisher:</strong> {{ book.publisher }}</p>
-      <p><strong>Year:</strong> {{ book.year }}</p>
-    </div>
-  </div>
-  <div class="row mt-3">
-    <form method="POST" class="col-4" action="{{ url_for('add_favorite') }}">
+    <hr />
+    <div class="row mt-3 text-center">
+      <form method="POST" class="col-md-4" action="{{ url_for('add_favorite') }}">
         <input type="hidden" name="isbn" value="{{ book.isbn }}" />
         <input type="hidden" name="title" value="{{ book.title }}" />
         <input type="hidden" name="author" value="{{ book.author }}" />
         <input type="hidden" name="publisher" value="{{ book.publisher }}" />
         <input type="hidden" name="image_url" value="{{ book.image_url }}" />
         <input type="hidden" name="year" value="{{ book.year }}" />
-        <button type="submit" class="btn btn-primary btn-lg mt-3" {% if is_favorite %} disabled {% endif %}>
+        <button type="submit" class="btn btn-primary btn-lg w-100 add-btn" {% if is_favorite %} disabled {% endif %}>
           {% if is_favorite %} In Favorites {% else %} Add to Favorites {% endif %}
         </button>
       </form>
-      
-      <form method="POST" class="col-4" action="{{ url_for('add_want_to_read') }}">
+
+      <form method="POST" class="col-md-4" action="{{ url_for('add_want_to_read') }}">
         <input type="hidden" name="isbn" value="{{ book.isbn }}" />
         <input type="hidden" name="title" value="{{ book.title }}" />
         <input type="hidden" name="author" value="{{ book.author }}" />
         <input type="hidden" name="publisher" value="{{ book.publisher }}" />
         <input type="hidden" name="image_url" value="{{ book.image_url }}" />
         <input type="hidden" name="year" value="{{ book.year }}" />
-        <button type="submit" class="btn btn-warning btn-lg mt-3" {% if is_want_to_read %} disabled {% endif %}>
-          {% if is_want_to_read %} Added to Want to Read {% else %} Add to Want to Read {% endif %}
+        <button type="submit" class="btn btn-warning btn-lg w-100 add-btn" {% if is_want_to_read %} disabled {% endif %}>
+          {% if is_want_to_read %} Want to Read {% else %} Add to Want to Read {% endif %}
         </button>
       </form>
-      
-      <form method="POST" class="col-4" action="{{ url_for('add_read_before') }}">
+
+      <form method="POST" class="col-md-4" action="{{ url_for('add_read_before') }}">
         <input type="hidden" name="isbn" value="{{ book.isbn }}" />
         <input type="hidden" name="title" value="{{ book.title }}" />
         <input type="hidden" name="author" value="{{ book.author }}" />
         <input type="hidden" name="publisher" value="{{ book.publisher }}" />
         <input type="hidden" name="image_url" value="{{ book.image_url }}" />
         <input type="hidden" name="year" value="{{ book.year }}" />
-        <button type="submit" class="btn btn-success btn-lg mt-3" {% if is_read_before %} disabled {% endif %}>
-          {% if is_read_before %} Marked as Read Before {% else %} Add to Read Before {% endif %}
+        <button type="submit" class="btn btn-success btn-lg w-100 add-btn" {% if is_read_before %} disabled {% endif %}>
+          {% if is_read_before %} Read Before {% else %} Mark as Read {% endif %}
         </button>
       </form>
+    </div>
   </div>
-  {% endblock %}
 </div>
+
+{% endblock %}

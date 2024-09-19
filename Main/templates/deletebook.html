@@ -1,34 +1,36 @@
 {% extends "layout.html" %}
 {% block content %}
-	<div class="content-section">
-		<form method="POST" action="">
-			{{ form.hidden_tag() }}
-			<fieldset class="form-grp">
-				<legend class="border-botton mb-4">Delete Book</legend>
+<div class="content-section d-flex justify-content-center my-5">
+  <form
+    method="POST"
+    action=""
+    class="w-50 shadow p-4 rounded animate__animated animate__fadeIn"
+  >
+    {{ form.hidden_tag() }}
+    <fieldset class="form-group">
+      <legend class="border-bottom mb-4 text-danger" style="font-weight: bold">
+        Delete Book
+      </legend>
 
-				
-				<div class="form-grp">
-					{{ form.ISBN.label(class="form-control-label")}}
+      <div class="form-group mb-4">
+        {{ form.ISBN.label(class="form-control-label text-dark") }}
+        {% if form.ISBN.errors %}
+          {{ form.ISBN(class="form-control form-control-lg is-invalid") }}
+          <div class="invalid-feedback">
+            {% for error in form.ISBN.errors %}
+              <span>{{ error }}</span>
+            {% endfor %}
+          </div>
+        {% else %}
+          {{ form.ISBN(class="form-control form-control-lg shadow-sm") }}
+        {% endif %}
+      </div>
 
-					{% if form.ISBN.errors %}
-						{{ form.ISBN(class="form-control form-control-lg is-invalid")}}
-						<div class="invalid-feedback">
-							{% for error in form.ISBN.errors %}
-								<span>
-									{{ error }}
-								</span>
-							{% endfor %}
-						</div>
-						{% else %}
-							{{ form.ISBN(class="form-control form-control-lg")}}
-					{% endif %}
-				</div>
-	
-			</fieldset>
-			<br/>
-			<div class="form-grp">
-				{{ form.submit(class="btn btn-outline-info")}}
-			</div>
-		</form>
-	</div>
+    </fieldset>
+
+    <div class="form-group text-center">
+      {{ form.submit(class="btn btn-danger btn-lg px-5 shadow-sm") }}
+    </div>
+  </form>
+</div>
 {% endblock content %}

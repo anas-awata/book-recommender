@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileAllowed
 from flask_login import current_user
-from wtforms import StringField, PasswordField, SubmitField, BooleanField
+from wtforms import StringField, PasswordField, SubmitField, BooleanField,SelectField
 from wtforms.validators import DataRequired, Length,Email,EqualTo, ValidationError
 from Main.models import User
 
@@ -10,6 +10,7 @@ class RegistrationForm(FlaskForm):
 	username=StringField('Username',validators=[DataRequired(),Length(min=2,max=20)])
 	email=StringField('Email',validators=[DataRequired(),Email()])
 	password=PasswordField('Password',validators=[DataRequired()])
+	role = SelectField('Role', choices=[('user', 'User'), ('admin', 'Admin')], validators=[])
 	confirm_pswd=PasswordField('Confirm Password',validators=[DataRequired(),EqualTo('password')])
 	submit=SubmitField('Sign Up')
 
@@ -41,7 +42,7 @@ class UploadBook(FlaskForm):
 	Author=StringField('Author',validators=[DataRequired()])
 	Publisher=StringField('Publisher',validators=[DataRequired()])
 	ImageURL=StringField('Image URL',validators=[DataRequired()])
-	submit=SubmitField('Upload Details')
+	submit=SubmitField('Upload Book')
 
 
 class Contact(FlaskForm):
@@ -52,7 +53,7 @@ class Contact(FlaskForm):
 
 class DeleteBook(FlaskForm):
 	ISBN=StringField('Enter ISBN :',validators=[DataRequired(),Length(min=2,max=15)])
-	submit=SubmitField('Delete Book ;)')
+	submit=SubmitField('Delete Book')
 
 
 class UpdateAccount(FlaskForm):
