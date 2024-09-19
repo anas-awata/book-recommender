@@ -131,19 +131,37 @@ def upload(file_name, list_of_elem):
         csv_writer.writerow(list_of_elem)
 
 
-@app.route("/uploadbook",methods=['GET','POST'])
+@app.route("/uploadbook", methods=['GET', 'POST'])
 @login_required
 @admin_required
 def uploadbook():
-	form=UploadBook()
-	df=pd.read_csv('Bookz.csv')
-	if form.validate_on_submit():
-		i=max(df['index']+1)
-		li=[i,i,form.ISBN.data,form.Title.data,form.Author.data,form.Publisher.data]
-		upload('Book.csv',li)
-		flash(f'Book Uploaded Succesfully', 'success')
-		return redirect(url_for('home'))
-	return render_template('uploadbook.html',title='Upload Book',form=form)
+    form = UploadBook()
+    df = pd.read_csv('Bookz.csv')
+    
+    if form.validate_on_submit():
+        # Calculate the new index
+        new_index = df['index'].max() + 1
+        
+        # Create a new row as a DataFrame
+        new_row = pd.DataFrame([{
+            'Unnamed: 0':new_index,
+            'index': new_index,
+            'ISBN': form.ISBN.data,
+            'Title': form.Title.data,
+            'Author': form.Author.data,
+            'Publisher': form.Publisher.data
+        }])
+        
+        # Append the new row to the DataFrame
+        df = pd.concat([df, new_row], ignore_index=True)
+        
+        # Save the updated DataFrame back to the CSV
+        df.to_csv('Bookz.csv', index=False)
+        
+        flash('Book Uploaded Successfully', 'success')
+        return redirect(url_for('home'))
+    
+    return render_template('uploadbook.html', title='Upload Book', form=form)
 
 
 @app.route("/contact",methods=['GET','POST'])
